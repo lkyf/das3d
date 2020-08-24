@@ -95,6 +95,8 @@ def train(vxl_ae, train_loader, valid_loader, optimizer, device):
 
 
 if __name__ == '__main__':
+    # args.data_dir 要修改为自己文件的地址
+    # shapenet 读取方式
     train_data_path = os.path.join(args.data_dir, 'shapenet_train.hdf5')
     test_data_path = os.path.join(args.data_dir, 'shapenet_test.hdf5')
     if os.path.exists(train_data_path):
@@ -113,11 +115,7 @@ if __name__ == '__main__':
         print("error: cannot load " + train_data_path)
         exit(0)
 
-    train_loader = DataLoader(train_data, batch_size=args.batch_size,
-                              num_workers=args.batch_size, pin_memory=True, shuffle=True, drop_last=True)
-    valid_loader = DataLoader(test_data, batch_size=args.batch_size,
-                              num_workers=args.batch_size, pin_memory=True, shuffle=False)
-
+    # pixel3d 读取方式
     # train_data_path = os.path.join(args.data_dir, 'pixel3d.hdf5')  # pixel3d
     # if os.path.exists(train_data_path):
     #     data_dict = h5py.File(train_data_path, 'r')
@@ -128,6 +126,11 @@ if __name__ == '__main__':
     # else:
     #     print("error: cannot load " + train_data_path)
     #     exit(0)
+
+    train_loader = DataLoader(train_data, batch_size=args.batch_size,
+                              num_workers=args.batch_size, pin_memory=True, shuffle=True, drop_last=True)
+    valid_loader = DataLoader(test_data, batch_size=args.batch_size,
+                              num_workers=args.batch_size, pin_memory=True, shuffle=False)
 
     device = torch.device('cpu')
     if torch.cuda.is_available():
